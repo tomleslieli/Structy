@@ -141,4 +141,44 @@
 
 ////////// PAIR PRODUCT ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//TO-DO
+// const pairProduct = (numbers, targetProduct) => {
+
+//     let hash = {};
+
+//     for (let i = 0; i < numbers.length; i++){
+//       let current = numbers[i];
+//       let complement = targetProduct / current;
+
+//       if (complement in hash){
+//         return [i, hash[complement]]
+//       }
+
+//       hash[current] = i;
+//     }
+
+//     };
+
+//     module.exports = {
+//       pairProduct,
+//     };
+
+////////// INTERSECTION  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const intersection = (a, b) => {
+//     const set = new Set(a);
+//     const res = [];
+
+//       for (let i of b){
+//         if (set.has(i)){
+//       res.push(i);
+//         }
+//     }
+
+//     return res
+//   };
+
+//   module.exports = {
+//     intersection,
+//   };
+
+////////// FIVE SORT  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
