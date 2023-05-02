@@ -186,7 +186,7 @@
 // const fiveSort = (nums) => {
 //     let i = 0;
 //     let j = nums.length - 1;
-    
+
 //     while (i <= j){
 //       if (nums[j] === 5){
 //         j -= 1;
@@ -199,8 +199,17 @@
 //     }
 //     return nums;
 //   };
-  
+
 //   module.exports = {
 //     fiveSort,
 //   };
-  
+
+////////// LINKED LIST VALUES  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const linkedListValues = (head) => {
+  // todo
+};
+
+module.exports = {
+  linkedListValues,
+};
