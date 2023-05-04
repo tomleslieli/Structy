@@ -207,9 +207,74 @@
 ////////// LINKED LIST VALUES  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const linkedListValues = (head) => {
-  // todo
+  const values = [];
+  let current = head;
+  while (current !== null) {
+    values.push(current.val);
+    current = current.next;
+  }
+  return values;
 };
 
 module.exports = {
   linkedListValues,
+};
+
+////////// SUM LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const sumList = (head) => {
+  let sum = 0;
+  let current = head;
+  while (current !== null) {
+    sum += current.val;
+    current = current.next;
+  }
+  return sum;
+};
+
+module.exports = {
+  sumList,
+};
+
+////////// LINKED LIST FIND   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const linkedListFind = (head, target) => {
+  let current = head;
+  while (current !== null) {
+    if (current.val === target) return true;
+    current = current.next;
+  }
+  return false;
+};
+
+module.exports = {
+  linkedListFind,
+};
+
+////////// GET NODE VALUE   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+const getNodeValue = (head, index) => {
+  let count = 0;
+  let current = head;
+  while (current !== null) {
+    if (count === index) return current.val;
+    current = current.next;
+    count += 1;
+  }
+  return null;
+};
+
+module.exports = {
+  getNodeValue,
+};
+
+////////// REVERSE LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const reverseList = (head) => {
+  // todo
+};
+
+module.exports = {
+  reverseList,
 };
