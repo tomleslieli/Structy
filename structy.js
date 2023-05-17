@@ -206,75 +206,152 @@
 
 ////////// LINKED LIST VALUES  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const linkedListValues = (head) => {
-  const values = [];
-  let current = head;
-  while (current !== null) {
-    values.push(current.val);
-    current = current.next;
-  }
-  return values;
-};
+// const linkedListValues = (head) => {
+//   const values = [];
+//   let current = head;
+//   while (current !== null) {
+//     values.push(current.val);
+//     current = current.next;
+//   }
+//   return values;
+// };
 
-module.exports = {
-  linkedListValues,
-};
+// module.exports = {
+//   linkedListValues,
+// };
 
 ////////// SUM LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const sumList = (head) => {
-  let sum = 0;
-  let current = head;
-  while (current !== null) {
-    sum += current.val;
-    current = current.next;
-  }
-  return sum;
-};
+// const sumList = (head) => {
+//   let sum = 0;
+//   let current = head;
+//   while (current !== null) {
+//     sum += current.val;
+//     current = current.next;
+//   }
+//   return sum;
+// };
 
-module.exports = {
-  sumList,
-};
+// module.exports = {
+//   sumList,
+// };
 
 ////////// LINKED LIST FIND   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const linkedListFind = (head, target) => {
-  let current = head;
-  while (current !== null) {
-    if (current.val === target) return true;
-    current = current.next;
-  }
-  return false;
-};
+// const linkedListFind = (head, target) => {
+//   let current = head;
+//   while (current !== null) {
+//     if (current.val === target) return true;
+//     current = current.next;
+//   }
+//   return false;
+// };
 
-module.exports = {
-  linkedListFind,
-};
+// module.exports = {
+//   linkedListFind,
+// };
 
 ////////// GET NODE VALUE   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// const getNodeValue = (head, index) => {
+//   let count = 0;
+//   let current = head;
+//   while (current !== null) {
+//     if (count === index) return current.val;
+//     current = current.next;
+//     count += 1;
+//   }
+//   return null;
+// };
 
-const getNodeValue = (head, index) => {
-  let count = 0;
-  let current = head;
-  while (current !== null) {
-    if (count === index) return current.val;
-    current = current.next;
-    count += 1;
-  }
-  return null;
-};
-
-module.exports = {
-  getNodeValue,
-};
+// module.exports = {
+//   getNodeValue,
+// };
 
 ////////// REVERSE LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const reverseList = (head) => {
+// const reverseList = (head) => {
+//   let current = head;
+//   let prev = null;
+//   while (current !== null) {
+//     const next = current.next;
+//     current.next = prev;
+//     prev = current;
+//     current = next;
+//   }
+//   return prev;
+// };
+
+// module.exports = {
+//   reverseList,
+// };
+
+////////// ZIPPER LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const zipperLists = (head1, head2) => {
+//   const head = head1;
+//   let tail = head;
+//   let current1 = head1.next;
+//   let current2 = head2;
+//   let count = 0;
+
+//   while (current1 !== null && current2 !== null) {
+//     if (count % 2 === 0) {
+//       tail.next = current2;
+//       current2 = current2.next;
+//     } else {
+//       tail.next = current1;
+//       current1 = current1.next;
+//     }
+//     tail = tail.next;
+//     count += 1;
+//   }
+
+//   if (current1 !== null) tail.next = current1;
+//   if (current2 !== null) tail.next = current2;
+
+//   return head;
+// };
+
+// module.exports = {
+//   zipperLists,
+// };
+
+////////// MERGE LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const mergeLists = (head1, head2) => {
+//   let dummyHead = new Node(null);
+//   let tail = dummyHead;
+//   let current1 = head1;
+//   let current2 = head2;
+
+//   while (current1 !== null && current2 !== null) {
+//     if (current1.val < current2.val) {
+//       tail.next = current1;
+//       current1 = current1.next;
+//     } else {
+//       tail.next = current2;
+//       current2 = current2.next;
+//     }
+//     tail = tail.next;
+//   }
+
+//   if (current1 !== null) tail.next = current1;
+//   if (current2 !== null) tail.next = current2;
+
+//   return dummyHead.next;
+// };
+
+// module.exports = {
+//   mergeLists,
+// };
+
+////////// IS UNIVALUE LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const isUnivalueList = (head) => {
   // todo
 };
 
 module.exports = {
-  reverseList,
+  isUnivalueList,
 };
