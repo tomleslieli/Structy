@@ -348,10 +348,98 @@
 
 ////////// IS UNIVALUE LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const isUnivalueList = (head) => {
-  // todo
+// const isUnivalueList = (head) => {
+//   let current = head;
+
+//   while (current !== null) {
+//     if (current.val !== head.val) return false;
+//     current = current.next;
+//   }
+
+//   return true;
+// }
+
+// module.exports = {
+//   isUnivalueList,
+// };
+
+////////// LONGEST STREAK   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const longestStreak = (head) => {
+//   let maxStreak = 0;
+//   let currentStreak = 0;
+//   let currentNode = head;
+//   let prevVal = null;
+
+//   while (currentNode !== null) {
+//     if (currentNode.val === prevVal) {
+//       currentStreak += 1;
+//     } else {
+//       currentStreak = 1;
+//     }
+
+//     if (currentStreak > maxStreak) {
+//       maxStreak = currentStreak;
+//     }
+
+//     prevVal = currentNode.val;
+//     currentNode = currentNode.next;
+//   }
+
+//   return maxStreak;
+// };
+
+// module.exports = {
+//   longestStreak,
+// };
+
+////////// REMOVE NODE   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const removeNode = (head, targetVal) => {
+//   if (head.val === targetVal) return head.next;
+
+//   let current = head;
+//   let prev = null;
+//   while (current !== null) {
+//     if (current.val === targetVal) {
+//       prev.next = current.next;
+//       break;
+//     }
+//     prev = current;
+//     current = current.next;
+//   }
+
+//   return head;
+// };
+
+// module.exports = {
+//   removeNode,
+// };
+
+////////// INSERT NODE   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const insertNode = (head, value, index) => {
+  if (index === 0) {
+    const newHead = new Node(value);
+    newHead.next = head;
+    return newHead;
+  }
+
+  let count = 0;
+  let current = head;
+  while (current !== null) {
+    if (count === index - 1) {
+      const next = current.next;
+      current.next = new Node(value);
+      current.next.next = next;
+    }
+
+    count += 1;
+    current = current.next;
+  }
+  return head;
 };
 
 module.exports = {
-  isUnivalueList,
+  insertNode,
 };
