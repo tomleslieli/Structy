@@ -418,28 +418,103 @@
 
 ////////// INSERT NODE   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const insertNode = (head, value, index) => {
-  if (index === 0) {
-    const newHead = new Node(value);
-    newHead.next = head;
-    return newHead;
-  }
+// const insertNode = (head, value, index) => {
+//   if (index === 0) {
+//     const newHead = new Node(value);
+//     newHead.next = head;
+//     return newHead;
+//   }
 
-  let count = 0;
-  let current = head;
-  while (current !== null) {
-    if (count === index - 1) {
-      const next = current.next;
-      current.next = new Node(value);
-      current.next.next = next;
-    }
+//   let count = 0;
+//   let current = head;
+//   while (current !== null) {
+//     if (count === index - 1) {
+//       const next = current.next;
+//       current.next = new Node(value);
+//       current.next.next = next;
+//     }
 
-    count += 1;
-    current = current.next;
-  }
-  return head;
+//     count += 1;
+//     current = current.next;
+//   }
+//   return head;
+// };
+
+// module.exports = {
+//   insertNode,
+// };
+
+////////// CREATE LINKED LIST   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const createLinkedList = (values) => {
+//   const dummyHead = new Node(null);
+//   let tail = dummyHead;
+//   for (let val of values) {
+//     tail.next = new Node(val);
+//     tail = tail.next;
+//   }
+//   return dummyHead.next;
+// };
+
+// module.exports = {
+//   createLinkedList,
+// };
+
+////////// ADD LISTS   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const addLists = (head1, head2) => {
+//   const dummyHead = new Node(null);
+//   let tail = dummyHead;
+
+//   let carry = 0;
+//   let current1 = head1;
+//   let current2 = head2;
+//   while (current1 !== null || current2 !== null || carry !== 0)  {
+//     const val1 = current1 === null ? 0 : current1.val;
+//     const val2 = current2 === null ? 0 : current2.val;
+//     const sum = val1 + val2 + carry;
+//     carry = sum > 9 ? 1 : 0;
+
+//     const digit = sum % 10;
+//     tail.next = new Node(digit);
+//     tail = tail.next;
+
+//     if (current1 !== null) current1 = current1.next;
+//     if (current2 !== null) current2 = current2.next;
+//   }
+
+//   return dummyHead.next;
+// };
+
+////////// DEPTH FIRST VALUES   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const depthFirstValues = (root) => {
+//   if (root === null)
+//     return [];
+
+//   const values = [];
+//   const stack = [ root ];
+
+//   while (stack.length > 0) {
+//     const node = stack.pop();
+//     values.push(node.val);
+
+//     if (node.right !== null)
+//       stack.push(node.right);
+
+//     if (node.left !== null)
+//       stack.push(node.left);
+//   }
+
+//   return values;
+// };
+
+////////// BREDTH FIRST VALUES   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const breadthFirstValues = (root) => {
+  // todo
 };
 
 module.exports = {
-  insertNode,
+  breadthFirstValues,
 };
