@@ -216,6 +216,18 @@
 //   return values;
 // };
 
+// const linkedListValues = (head) => {
+//   const values = [];
+//   _linkedListValues(head, values);
+//   return values;
+// };
+
+// const _linkedListValues = (head, values) => {
+//   if (head === null) return;
+//   values.push(head.val);
+//   _linkedListValues(head.next, values);
+// };
+
 // module.exports = {
 //   linkedListValues,
 // };
@@ -232,6 +244,11 @@
 //   return sum;
 // };
 
+// const sumList = (head) => {
+//   if (head === null) return 0;
+//   return head.val + sumList(head.next);
+// };
+
 // module.exports = {
 //   sumList,
 // };
@@ -245,6 +262,12 @@
 //     current = current.next;
 //   }
 //   return false;
+// };
+
+// const linkedListFind = (head, target) => {
+//   if (head === null) return false;
+//   if (head.val === target) return true;
+//   return linkedListFind(head.next, target);
 // };
 
 // module.exports = {
@@ -264,6 +287,12 @@
 //   return null;
 // };
 
+// const getNodeValue = (head, index) => {
+//   if (head === null) return null;
+//   if (index === 0) return head.val;
+//   return getNodeValue(head.next, index - 1);
+// };
+
 // module.exports = {
 //   getNodeValue,
 // };
@@ -280,6 +309,13 @@
 //     current = next;
 //   }
 //   return prev;
+// };
+
+// const reverseList = (head, prev = null) => {
+//   if (head === null) return prev;
+//   const next = head.next;
+//   head.next = prev;
+//   return reverseList(next, head);
 // };
 
 // module.exports = {
@@ -313,6 +349,17 @@
 //   return head;
 // };
 
+// const zipperLists = (head1, head2) => {
+//   if (head1 === null && head2 === null) return null;
+//   if (head1 === null) return head2;
+//   if (head2 === null) return head1;
+//   const next1 = head1.next;
+//   const next2 = head2.next;
+//   head1.next = head2;
+//   head2.next = zipperLists(next1, next2);
+//   return head1;
+// };
+
 // module.exports = {
 //   zipperLists,
 // };
@@ -342,6 +389,22 @@
 //   return dummyHead.next;
 // };
 
+// const mergeLists = (head1, head2) => {
+//   if (head1 === null && head2 === null) return null;
+//   if (head1 === null) return head2;
+//   if (head2 === null) return head1;
+
+//   if (head1.val < head2.val) {
+//     const next1 = head1.next;
+//     head1.next = mergeLists(next1, head2);
+//     return head1;
+//   } else {
+//     const next2 = head2.next;
+//     head2.next = mergeLists(head1, next2);
+//     return head2;
+//   }
+// };
+
 // module.exports = {
 //   mergeLists,
 // };
@@ -358,6 +421,10 @@
 
 //   return true;
 // }
+
+const isUnivalueList = (head) => {
+  // todo
+};
 
 // module.exports = {
 //   isUnivalueList,
