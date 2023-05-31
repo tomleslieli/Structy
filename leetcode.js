@@ -326,3 +326,125 @@ const shipWithinDays = function (weights, days) {
     return res <= days;
   }
 };
+
+////////// COMPLEMENT OF BASE 10 INT  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const bitwiseComplement = function (N) {
+  let binStr = bin(N);
+  let str = "";
+  for (let i = 0; i < binStr.length; i++) {
+    str += binStr[i] === "0" ? "1" : "0";
+  }
+  return parseInt(str, 2);
+};
+
+function bin(N) {
+  return (N >>> 0).toString(2);
+}
+
+////////// PAIRS OF SONGS WITHTOTAL DURATION DIVIS BY 60  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const numPairsDivisibleBy60 = function (time) {
+  const count = new Map();
+  let n = 0;
+  for (let t of time) {
+    // two sum like method
+    let d = (60 - (t % 60)) % 60;
+    if (count.has(d)) {
+      n += count.get(d);
+    }
+    count.set(t % 60, 1 + (count.get(t % 60) || 0));
+  }
+  return n;
+};
+
+////////// CAPACITY TO SHIP PACKGES WITHIN D DAYS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const shipWithinDays = function (weights, D) {
+  let left = 0,
+    right = 0;
+  for (let w of weights) {
+    left = Math.max(left, w);
+    right += w;
+  }
+  while (left < right) {
+    let mid = Math.floor((left + right) / 2),
+      need = 1,
+      cur = 0;
+    for (let w of weights) {
+      if (cur + w > mid) {
+        need += 1;
+        cur = 0;
+      }
+      cur += w;
+    }
+    if (need > D) left = mid + 1;
+    else right = mid;
+  }
+  return left;
+};
+
+////////// NUMBERS WITHIN REPEATED DIGITS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const numDupDigitsAtMostN = function (N) {
+  const L = [];
+  for (let x = N + 1; x > 0; x = Math.floor(x / 10)) L.unshift(x % 10);
+
+  let res = 0,
+    n = L.length;
+  for (let i = 1; i < n; ++i) res += 9 * A(9, i - 1);
+
+  const seen = new Set();
+  for (let i = 0; i < n; ++i) {
+    for (let j = i > 0 ? 0 : 1; j < L[i]; ++j)
+      if (!seen.has(j)) res += A(9 - i, n - i - 1);
+    if (seen.has(L[i])) break;
+    seen.add(L[i]);
+  }
+  return N - res;
+};
+
+function A(m, n) {
+  return n === 0 ? 1 : A(m, n - 1) * (m - n + 1);
+}
+
+////////// MAXIMUM SUM OF 3 NON-OVERLAPPING SUBARRAYS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maxSumOfThreeSubarrays = function (nums, k) {
+  const n = nums.length;
+  const sum = Array(n + 1).fill(0);
+  const left = Array(n).fill(0);
+  const right = Array(n).fill(n - k);
+  const ans = Array(3).fill(0);
+  for (let i = 0; i < n; i++) {
+    sum[i + 1] = sum[i] + nums[i];
+  }
+  for (let i = k, total = sum[k] - sum[0]; i < n; i++) {
+    if (sum[i + 1] - sum[i + 1 - k] > total) {
+      left[i] = i + 1 - k;
+      total = sum[i + 1] - sum[i + 1 - k];
+    } else {
+      left[i] = left[i - 1];
+    }
+  }
+  for (let i = n - 1 - k, total = sum[n] - sum[n - k]; i >= 0; i--) {
+    if (sum[i + k] - sum[i] >= total) {
+      right[i] = i;
+      total = sum[i + k] - sum[i];
+    } else {
+      right[i] = right[i + 1];
+    }
+  }
+  for (let i = k; i <= n - 2 * k; i++) {
+    const l = left[i - 1];
+    const r = right[i + k];
+    const total =
+      sum[l + k] - sum[l] + sum[r + k] - sum[r] + sum[i + k] - sum[i];
+    if (total > ans[0]) {
+      ans[0] = total;
+      ans[1] = l;
+      ans[2] = i;
+    }
+  }
+  return ans;
+};
