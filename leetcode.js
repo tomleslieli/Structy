@@ -448,3 +448,109 @@ const maxSumOfThreeSubarrays = function (nums, k) {
   }
   return ans;
 };
+
+////////// CONVERT TO BASE 2  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const baseNeg2 = function(N) {
+  return negBase(N, -2)
+};
+
+function negBase(val, base) {
+  if(val === 0) return '0'
+	let result = '';
+	while (val !== 0) {
+		let remainder = val % base;
+		val = Math.trunc(val / base);
+		if (remainder < 0) {
+			remainder += -base;
+			val += 1;
+		}
+		result = remainder + result;
+	}
+	return result;
+}
+
+////////// BINARY PREFIX DIVISIBLE BY 5  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const prefixesDivBy5 = function(A) {
+  const res = []
+  let pre = 0
+  const len = A.length
+  for(let i = 0; i < len; i++) {
+    pre = (pre % 100) * 2 + A[i]
+    res.push(pre % 5 === 0 ? true : false)
+  }
+  return res
+};
+
+////////// BINARY TREE LEVEL ORDER TRAVERSAL ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const levelOrder = function(root) {
+  const res = [];
+  if (root == null) return res;
+  let next = [root];
+  while (next.length > 0) {
+    next = tr(res, next);
+  }
+  return res;
+};
+
+function tr(res, nodeArr) {
+  const arr = [];
+  const nextLevelNodes = [];
+  for (let i = 0; i < nodeArr.length; i++) {
+    arr.push(nodeArr[i].val);
+    if (nodeArr[i].left) {
+      nextLevelNodes.push(nodeArr[i].left);
+    }
+    if (nodeArr[i].right) {
+      nextLevelNodes.push(nodeArr[i].right);
+    }
+  }
+  if (arr.length) res.push(arr);
+  return nextLevelNodes;
+}
+
+////////// PARTITION ARRAY INTO THREE PARTS W EQUAL SUM ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const canThreePartsEqualSum = function(A) {
+  let lo = 0
+  let hi = A.length - 1
+  let lsum = 0
+  let hsum = 0
+  const sum = A.reduce((ac, el) => ac + el, 0)
+  if(sum % 3 !== 0) return false
+  const target = sum / 3
+
+  while(lo < hi && lsum !== target) {
+    lsum += A[lo]
+    lo++
+  }
+  if(lsum !== target) return false
+  while(lo < hi && hsum !== target) {
+    hsum += A[hi]
+    hi--
+  }
+  if(hsum !== target) return false
+
+  let msum = 0
+  for(let i = lo; i <= hi; i++) {
+    msum += A[i]
+  }
+  if(msum !== target) return false
+  return true
+};
+
+////////// BEST SIGHTSEEING PAIR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maxScoreSightseeingPair = function(A) {
+  let ans =A[0];
+  let prevBestIdx =0;
+  for(let j=1;j<A.length;j++){
+      ans = Math.max(ans, A[prevBestIdx]+prevBestIdx+A[j]-j);
+      if(A[prevBestIdx ]+prevBestIdx <A[j]+j){
+          prevBestIdx =j;
+      }
+  }
+  return ans;
+};
