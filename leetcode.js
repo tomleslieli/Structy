@@ -554,3 +554,120 @@ const maxScoreSightseeingPair = function(A) {
   }
   return ans;
 };
+
+////////// REMOVE OUTERMOST PARENTHESIS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const removeOuterParentheses = function(S) {
+    let onum = 0
+    let oidx = 0
+    let cnum = 0
+    let cidx = 0
+    let res = ''
+    const arr = S.split('')
+    for(let i = 0, len = S.length; i < len; i++) {
+      if(S[i] === '(') onum++
+      if(S[i] === ')') cnum++
+      if(onum === cnum) {
+        res += arr.slice(oidx + 1, oidx + cnum * 2 - 1).join('')
+        onum = 0
+        cnum = 0
+        oidx = i+1
+      }
+    }
+    return res
+};
+
+////////// SMALLEST INT DIVISIBLE BY K ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const smallestRepunitDivByK = function(K) {
+    if (K % 2 === 0 || K % 5 === 0) return -1;
+    let r = 0;
+    for (let N = 1; N <= K; ++N) {
+        r = (r * 10 + 1) % K;
+        if (r == 0) return N;
+    }
+    return -1;
+};
+
+////////// SUM OF ROOT TO LEAF ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const sumRootToLeaf = function(root) {
+  if(root == null) return 0
+  const res = []
+  dfs(root, 0, res)
+  const mod = Math.pow(10, 9) + 7
+  return res.reduce((ac, el) => (ac + el) % mod ,0)  
+};
+
+function dfs(node, val, res) {
+  const mod = Math.pow(10, 9) + 7
+  if(node == null) return
+  val = (val * 2 + node.val) % mod
+  if(node.left === null && node.right === null) {
+    res.push(val)
+  }
+  dfs(node.left, val, res)
+  dfs(node.right, val, res)
+}
+
+////////// BINARY STRING WITH SUBSTRINGS REPRESENTING 1 TO N ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const queryString = function(S, N) {
+  for(let i = 1; i <= N; i++) {
+    let tmp = bin(i)
+    if(S.indexOf(tmp) === -1) return false
+  }
+  return true
+};
+
+function bin(num) {
+  return (num >>> 0).toString(2)
+}
+
+////////// CAMELCASE MATCH ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const camelMatch = function(queries, pattern) {
+    const res = []
+
+    queries.forEach(el => {
+      let tmp = chk(el, pattern)
+      if(tmp) res.push(true)
+      else res.push(false)
+    })
+    
+    return res
+};
+
+function chk(str, p) {
+  let pIdx = 0
+  let sIdx = 0
+  const sLen = str.length
+  const pLen = p.length
+  const Acode = ('A').charCodeAt(0)
+  const Zcode = ('Z').charCodeAt(0)
+  let pEnd = false
+
+  for(let i = 0; i < pLen; i++) {
+    let target = p.charAt(i)
+    
+    while(sIdx < sLen && !pEnd) {
+      if(str.charCodeAt(sIdx) >= Acode && str.charCodeAt(sIdx) <= Zcode && str.charAt(sIdx) !== target) return false
+      if(str.charAt(sIdx) === target) {
+        if(i !== pLen - 1) {
+          sIdx++
+        } else {
+          pEnd = true
+        }
+        break
+      } else {
+        sIdx++        
+      }
+    }
+    if(sIdx >= sLen) return false
+  }
+
+  for(let i = sIdx + 1; pEnd && i < sLen; i++) {
+    if(str.charCodeAt(i) >= Acode && str.charCodeAt(i) <= Zcode) return false
+  }
+  return true
+}
