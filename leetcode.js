@@ -738,3 +738,121 @@ dfs(node.right, arr.slice(0), res)
 
 
 }
+
+////////// LONGEST ARITHMETIC SEQUENCE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const longestArithSeqLength = function(A) {
+  let a = A
+  let n = A.length
+  if (n <= 2) return n;
+
+  let i, j, k, d;
+  let mxl = 2;
+  let current;
+  let last;
+
+  for (i = 0; i < n - mxl; i++) {
+    for (j = i + 1; j < n - mxl + 1; j++) {
+      d = a[j] - a[i];
+      last = a[j];
+      current = 2;
+
+      for (k = j + 1; k < n; k++) {
+        if (a[k] - last == d) {
+          current++;
+          last = a[k];
+        }
+      }
+
+      mxl = Math.max(mxl, current);
+    }
+  }
+
+  return mxl;
+};
+
+////////// RECOVER A TREE FROM PREORDER TRAVERSAL ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const recoverFromPreorder = function(S) {
+  const arr = []
+  let tmp = S[0]
+  for(let i = 1; i < S.length; i++) {
+    if(S[i] === '-') {
+      if(S[i-1] === '-') {
+         tmp += '-'
+       } else {
+         arr.push(tmp)
+         tmp = '-'
+       }
+    } else {
+      if(S[i-1] === '-') {
+        arr.push(tmp)
+        tmp = S[i]
+      } else {
+        tmp += S[i]
+      }
+    }
+  }
+  arr.push(tmp)
+  const resArr = []
+  helper(resArr, arr, 0)
+  return resArr[0]
+};
+
+
+function helper(nodeArr, strArr, idx) {
+  if(idx >= strArr.length) return
+  if(idx > 0) {
+    
+    if(strArr[idx].startsWith('-')) {
+      helper(nodeArr, strArr, idx + 1)
+    } else {
+      nodeArr[idx] = new TreeNode(+strArr[idx])
+      let d = strArr[idx - 1].length
+
+      let tIdx
+
+      for(let i = idx - 1; ; i = i - 2) {
+        if(i>= 1) {
+          if(strArr[i].length < d) {
+            tIdx = i+1
+            break
+          }
+        } else {
+
+          tIdx = 0
+          break
+        }
+      }
+      
+      if(nodeArr[tIdx].left) {
+        nodeArr[tIdx].right = nodeArr[idx]
+      } else {
+        nodeArr[tIdx].left = nodeArr[idx]
+      }
+      helper(nodeArr, strArr, idx + 1)
+    }
+
+  } else {
+    nodeArr[idx] = new TreeNode(+strArr[idx])
+    helper(nodeArr, strArr, idx + 1)
+  }
+  
+}
+
+////////// TWO CITY SCHEDULING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const twoCitySchedCost = function(costs) {
+  const N = costs.length
+  let res = 0
+  const refund = []
+  for(let i = 0; i < N; i++) {
+    refund[i] = costs[i][1] - costs[i][0]
+    res += costs[i][0]
+  }
+  refund.sort((a, b) => a - b)
+  for(let i = 0; i < N / 2; i++) {
+    res += refund[i]
+  }
+  return res
+};
