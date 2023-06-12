@@ -671,3 +671,70 @@ function chk(str, p) {
   }
   return true
 }
+
+////////// VIDEO STITCHING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const videoStitching = function (clips, T) {
+  clips.sort((a, b) => a[0] - b[0])
+  let res = 0
+  for(let i = 0, start = 0, end = 0, len = clips.length; start < T; start = end, res++) {
+    for(; i < len && clips[i][0] <= start; i++) {
+      end = Math.max(end, clips[i][1])
+    }
+    if(start === end) return -1
+  }
+  return res
+}
+
+////////// DIVISOR GAME ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const divisorGame = function(N) {
+  let idx = 0  
+  let x
+  while(x = chk(N)) {
+    idx++
+    N = N - x
+  }
+  if(idx === 0) return false
+  return idx % 2 === 1 ? true : false
+};
+
+function chk(num) {
+  for(let i = 1; i < num; i++) {
+     if(num % i === 0) return i
+  }
+  return false
+}
+
+////////// MAX DIFF BETWEEN NODE AND ANCESTOR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maxAncestorDiff = function(root) {
+  const arr = []
+  dfs(root, [], arr)
+  let res = Number.MIN_VALUE
+  for(let i = 0; i < arr.length; i++) {
+    let el = arr[i]
+    let max = Number.MIN_VALUE
+    let min = Number.MAX_VALUE 
+    for(let j = 0; j < el.length; j++) {
+      if(el[j] < min) min = el[j]
+      if(el[j] > max) max = el[j]
+    }
+    if(Math.abs(max - min) > res) res = Math.abs(max - min)
+  }
+  return res
+};
+
+function dfs(node, arr, res) {
+if(node == null) return
+arr.push(node.val)
+if(node.left === null && node.right === null) {
+  res.push(arr.slice(0))
+  return
+}
+
+dfs(node.left, arr.slice(0), res)
+dfs(node.right, arr.slice(0), res)
+
+
+}
