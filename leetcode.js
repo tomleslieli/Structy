@@ -856,3 +856,84 @@ const twoCitySchedCost = function(costs) {
   }
   return res
 };
+
+////////// BINARY TREE ZIGZAG LEVEL ORDER TRAVERSAL ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const zigzagLevelOrder = function(root) {
+  if(root == null) return []
+  const row = [root]
+  const res = []
+  bfs(row, res)
+  for(let i = 0; i < res.length; i++) {
+    res[i] = i % 2 === 0 ? res[i] : res[i].reverse()
+  }
+  return res
+};
+
+function bfs(row, res) {
+  if(row.length === 0) return
+  let tmp = []
+  let next = []
+  for(let i = 0; i< row.length; i++) {
+    tmp.push(row[i].val)
+    if(row[i].left) {
+       next.push(row[i].left)
+    }
+    if(row[i].right) {
+       next.push(row[i].right)
+    }
+  }
+  if(tmp.length) {
+    res.push(tmp)
+  }
+  bfs(next, res)
+}
+
+////////// MATRIX CELLS IN DISTANCE ORDER ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const allCellsDistOrder = function(R, C, r0, c0) {
+  const matrix = Array.from({ length: R }, () => new Array(C))
+  const arr = []
+  for (let i = 0; i < R; i++) {
+    for (let j = 0; j < C; j++) {
+      arr.push([i, j])
+    }
+  }
+
+  return arr.sort(
+    (a, b) =>
+      Math.abs(a[0] - r0) +
+      Math.abs(a[1] - c0) -
+      (Math.abs(b[0] - r0) + Math.abs(b[1] - c0))
+  )
+}
+
+////////// NEXT GREATER NODE IN LINKED LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const nextLargerNodes = function(head) {
+  const A = []
+  while (head != null) A.push(head.val), (head = head.next)
+  const res = new Array(A.length).fill(0)
+  const stack = []
+  for (let i = 0; i < A.length; i++) {
+    while (stack.length && A[stack[stack.length - 1]] < A[i])
+      res[stack.pop()] = A[i]
+    stack.push(i)
+  }
+  return res
+}
+
+////////// NEXT GREATER NODE IN LINKED LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const nextLargerNodes = function(head) {
+  const A = []
+  while (head != null) A.push(head.val), (head = head.next)
+  const res = new Array(A.length).fill(0)
+  const stack = []
+  for (let i = 0; i < A.length; i++) {
+    while (stack.length && A[stack[stack.length - 1]] < A[i])
+      res[stack.pop()] = A[i]
+    stack.push(i)
+  }
+  return res
+}
