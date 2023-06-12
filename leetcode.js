@@ -923,17 +923,78 @@ const nextLargerNodes = function(head) {
   return res
 }
 
-////////// NEXT GREATER NODE IN LINKED LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////// MAXIMUM SUM OF TWO NON OVERLAPPING SUBARRAYS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const nextLargerNodes = function(head) {
-  const A = []
-  while (head != null) A.push(head.val), (head = head.next)
-  const res = new Array(A.length).fill(0)
-  const stack = []
-  for (let i = 0; i < A.length; i++) {
-    while (stack.length && A[stack[stack.length - 1]] < A[i])
-      res[stack.pop()] = A[i]
-    stack.push(i)
+const maxSumTwoNoOverlap = function(A, L, M) {
+  let n = A.length
+  let sum = []
+  sum[0] = 0
+  for (let i = 0; i < n; i++) sum[i + 1] = sum[i] + A[i]
+
+  let ans = 0
+  for (let i = L - 1; i + M < n; ++i) {
+    for (let j = i + 1; j + M - 1 < n; ++j) {
+      ans = Math.max(ans, sum[i + 1] - sum[i - L + 1] + sum[j + M] - sum[j])
+    }
+  }
+  let tmp = L
+  L = M
+  M = tmp
+  for (let i = L - 1; i + M < n; ++i) {
+    for (let j = i + 1; j + M - 1 < n; ++j) {
+      ans = Math.max(ans, sum[i + 1] - sum[i - L + 1] + sum[j + M] - sum[j])
+    }
+  }
+  return ans
+}
+
+////////// NUMBER OF ENCLAVES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const numEnclaves = function(A) {
+  let res = 0
+  const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+  const visited = Array.from({ length: A.length }, () =>
+    new Array(A[0].length).fill(false)
+  )
+  for (let row = 0; row < A.length; row++) {
+    for (let col = 0; A[0] && col < A[0].length; col++) {
+      if (
+        (row === 0 ||
+          col === 0 ||
+          row === A.length - 1 ||
+          col === A[0].length - 1) &&
+        A[row][col] === 1
+      ) {
+        dfs(A, row, col, visited, dirs)
+      }
+    }
+  }
+  for (let row = 0; row < A.length; row++) {
+    for (let col = 0; A[0] && col < A[0].length; col++) {
+      if (A[row][col] === 1) {
+        res += 1
+      }
+    }
   }
   return res
 }
+
+function dfs(A, row, col, v, dirs) {
+  if (
+    row < 0 ||
+    row >= A.length ||
+    col < 0 ||
+    col >= A[0].length ||
+    v[row][col] ||
+    A[row][col] === 0
+  )
+    return
+
+  v[row][col] = true
+  A[row][col] = 0
+
+  for (let dir of dirs) {
+    dfs(A, row + dir[0], col + dir[1], v, dirs)
+  }
+}
+
