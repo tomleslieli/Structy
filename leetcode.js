@@ -1257,3 +1257,47 @@ for (let i = 0, j = 0; i < n; i++) {
 most = Math.max(stones[n - 1] - stones[1], stones[n - 2] - stones[0]) - (n - 2);
 return [least, most];
 };
+
+////////// NO ADJACENT FLOWER PLANTING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const gardenNoAdj = function(N, paths) {
+  const map = {};
+  for (let i = 0; i < N; i++) {
+    map[i] = [];
+  }
+  for (let path of paths) {
+    let l = path[0] - 1;
+    let r = path[1] - 1;
+    map[l].push(r);
+    map[r].push(l);
+  }
+  const result = new Array(N).fill(-1);
+  for (let i = 0; i < N; i++) {
+    let colors = new Array(4).fill(false);
+    for (let neighbor of map[i]) {
+      if (result[neighbor] !== -1) {
+        colors[result[neighbor]] = true;
+      }
+    }
+    for (let j = 0; j < colors.length; j++) {
+      if (!colors[j]) {
+        result[i] = j;
+        break;
+      }
+    }
+  }
+  return result.map(i => ++i);
+};
+
+////////// ROBOT BOUNDED IN CIRCLES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const isRobotBounded = function(instructions) {
+  let x = 0, y = 0, i = 0, d = [[0, 1], [1, 0], [0, -1], [ -1, 0]];
+  for (let j = 0; j < instructions.length; ++j)
+    if (instructions.charAt(j) === 'R') i = (i + 1) % 4;
+    else if (instructions .charAt(j) === 'L') i = (i + 3) % 4;
+    else {
+        x += d[i][0]; y += d[i][1];
+    }
+  return x == 0 && y == 0 || i > 0;
+};
