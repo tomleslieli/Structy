@@ -1115,3 +1115,62 @@ const maxUncrossedLines = function(A, B) {
 
   return dp[n]
 }
+
+////////// ESCAPE LARGE MAZE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const isEscapePossible = function(blocked, source, target) {
+  const blockedSet = new Set()
+  for (let el of blocked) {
+    let key = el[0] + "," + el[1]
+    blockedSet.add(key)
+  }
+  return canVisit(blockedSet, source, target) && canVisit(blockedSet, target, source)
+}
+
+function canVisit(blocked, start, end) {
+  const visited = new Set()
+  return dfs(blocked, start[0], start[1], end[0], end[1], visited)
+}
+function dfs(blocked, i, j, m, n, visited) {
+  visited.add(i + "," + j)
+  const dirs = [[i - 1, j], [i + 1, j], [i, j + 1], [i, j - 1]]
+  if ((i == m && j == n) || visited.size >= 20000) {
+    return true
+  }
+  for (let dir of dirs) {
+    let nextKey = dir[0] + "," + dir[1]
+    if (
+      dir[0] >= 0 &&
+      dir[1] >= 0 &&
+      dir[0] < 1e6 &&
+      dir[1] < 1e6 &&
+      !blocked.has(nextKey) &&
+      !visited.has(nextKey)
+    ) {
+      if (dfs(blocked, dir[0], dir[1], m, n, visited)) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
+////////// VALID BOOMERANG ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const isBoomerang = function(points) {
+  if(angle(points[0], points[1], points[2]) &&
+     angle(points[1], points[2], points[0]) &&
+     angle(points[1], points[0], points[2]) ) return false
+  return true
+};
+
+function angle(p1, p2, p3) {
+  if((p1[0] === p2[0] && p1[1] === p2[1]) ||
+     (p2[0] === p3[0] && p2[1] === p3[1]) ||
+     (p1[0] === p3[0] && p1[1] === p3[1]) ) return true
+  
+  return collinear(p1[0], p1[1], p2[0], p2[1], p3[0], p3[1])
+}
+function collinear(x1, y1, x2, y2,  x3, y3)  { 
+  return (y3 - y2) * (x2 - x1) === (y2 - y1) * (x3 - x2)
+} 
