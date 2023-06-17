@@ -1174,3 +1174,69 @@ function angle(p1, p2, p3) {
 function collinear(x1, y1, x2, y2,  x3, y3)  { 
   return (y3 - y2) * (x2 - x1) === (y2 - y1) * (x3 - x2)
 } 
+
+////////// BNS TO GREATER SUM TREE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const bstToGst = function(root) {
+  const arr = []
+  dfs(root, arr)
+  let v = 0
+  for(let i = arr.length - 1; i >= 0; i--) {
+    arr[i].val = arr[i].val + v
+    v = arr[i].val
+  }
+  return root
+};
+
+function dfs(node, arr) {
+  if(node == null) return
+  dfs(node.left, arr)
+  arr.push(node)
+  dfs(node.right, arr)
+}
+
+////////// MIN SCORE TRIANGULATION OF POLYGON ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minScoreTriangulation = function(A) {
+  if(A.length <= 2) return 0
+  if(A.length === 3) return A[0] * A[1] * A[2]
+  return chk(A, A.length)
+};
+
+function cost(points, i, j, k) {
+  let p1 = points[i],
+    p2 = points[j],
+    p3 = points[k]
+  return p1 * p2 * p3
+}
+
+function chk(points, n) {
+  if (n < 3) return 0
+
+  const table = Array.from({ length: n }, () => new Array(n).fill(0))
+
+  for (let gap = 0; gap < n; gap++) {
+    for (let i = 0, j = gap; j < n; i++, j++) {
+      if (j < i + 2) table[i][j] = 0
+      else {
+        table[i][j] = Number.MAX_VALUE
+        for (let k = i + 1; k < j; k++) {
+          let val = table[i][k] + table[k][j] + cost(points, i, j, k)
+          if (table[i][j] > val) table[i][j] = val
+        }
+      }
+    }
+  }
+  return table[0][n - 1]
+}
+
+////////// MAX DEPTH OF BINARY TREE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maxDepth = function(root) {
+  if (!root) return 0;
+  const left = maxDepth(root.left);
+  const right = maxDepth(root.right);
+  let depth = left > right ? left : right;
+  return (depth += 1);
+};
+
