@@ -1425,3 +1425,103 @@ const isEvenOddTree = function(root) {
   return true
 };
 
+////////// SEQUENTIAL DIGITS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const sequentialDigits = function(low, high) {
+  const res = []
+  
+  let q = []
+  for(let i = 1; i <= 9; i++) q.push(i)
+  
+  while(q.length) {
+    const tmp = []
+    const size = q.length
+    for(let i = 0; i < size; i++) {
+      const cur = q[i]
+      if(cur >= low && cur <= high) {
+        res.push(cur)
+      }
+      if(cur > high) break
+      const last = cur % 10
+      if(last === 9) continue
+      tmp.push(cur * 10 + last + 1)
+    }
+    
+    q = tmp
+  }
+  
+  return res
+};
+
+////////// MAX SIDE LENGTH OF A SQUARE WITH SUM LESS THAN OR EQUAL TO THRESHOLD ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maxSideLength = function (mat, threshold) {
+  let m = mat.length
+  let n = mat[0].length
+  const sum = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0))
+
+  let res = 0
+  let len = 1 // square side length
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      sum[i][j] =
+        sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + mat[i - 1][j - 1]
+
+      if (
+        i >= len &&
+        j >= len &&
+        sum[i][j] - sum[i - len][j] - sum[i][j - len] + sum[i - len][j - len] <=
+          threshold
+      )
+        res = len++
+    }
+  }
+
+  return res
+}
+
+////////// SHORTEST PATH IN A GRID WITH OBSTACLES ELIMINATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const shortestPath = function (grid, k) {
+  const m = grid.length
+  const n = m && grid[0].length
+  if (m === 1 && n === 1) return 0
+  const queue = [[0, 0, k]]
+  const dirs = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ]
+  const visited = new Set()
+  let steps = 0
+  while (queue.length > 0) {
+    let size = queue.length
+    while (size--) {
+      const [row, col, em] = queue.shift()
+      if (visited.has(row + "#" + col + "#" + em)) continue
+      visited.add(row + "#" + col + "#" + em)
+      for (let dir of dirs) {
+        const nx = row + dir[0]
+        const ny = col + dir[1]
+        if (
+          nx < 0 ||
+          nx >= m ||
+          ny < 0 ||
+          ny >= n ||
+          visited.has(nx + "#" + ny + "#" + em)
+        )
+          continue
+        if (nx === m - 1 && ny === n - 1) return steps + 1
+        if (grid[nx][ny] === 1) {
+          if (em > 0) queue.push([nx, ny, em - 1])
+        } else {
+          queue.push([nx, ny, em])
+        }
+      }
+    }
+    steps++
+  }
+  return -1
+}
