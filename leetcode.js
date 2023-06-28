@@ -1301,3 +1301,77 @@ const isRobotBounded = function(instructions) {
     }
   return x == 0 && y == 0 || i > 0;
 };
+
+////////// VALID BOOMERANG ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const isBoomerang = function(points) {
+  if(angle(points[0], points[1], points[2]) &&
+     angle(points[1], points[2], points[0]) &&
+     angle(points[1], points[0], points[2]) ) return false
+  return true
+};
+
+function angle(p1, p2, p3) {
+  if((p1[0] === p2[0] && p1[1] === p2[1]) ||
+     (p2[0] === p3[0] && p2[1] === p3[1]) ||
+     (p1[0] === p3[0] && p1[1] === p3[1]) ) return true
+  
+  return collinear(p1[0], p1[1], p2[0], p2[1], p3[0], p3[1])
+}
+function collinear(x1, y1, x2, y2,  x3, y3)  { 
+  return (y3 - y2) * (x2 - x1) === (y2 - y1) * (x3 - x2)
+
+////////// B-SEARCH TREE TO GREATER SUM TREE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const bstToGst = function(root) {
+  const arr = []
+  dfs(root, arr)
+  let v = 0
+  for(let i = arr.length - 1; i >= 0; i--) {
+    arr[i].val = arr[i].val + v
+    v = arr[i].val
+  }
+  return root
+};
+
+function dfs(node, arr) {
+  if(node == null) return
+  dfs(node.left, arr)
+  arr.push(node)
+  dfs(node.right, arr)
+}
+
+////////// MIN SCORE TRIANGULATION OF POLYGON ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minScoreTriangulation = function(A) {
+  if(A.length <= 2) return 0
+  if(A.length === 3) return A[0] * A[1] * A[2]
+  return chk(A, A.length)
+};
+
+function cost(points, i, j, k) {
+  let p1 = points[i],
+    p2 = points[j],
+    p3 = points[k]
+  return p1 * p2 * p3
+}
+
+function chk(points, n) {
+  if (n < 3) return 0
+
+  const table = Array.from({ length: n }, () => new Array(n).fill(0))
+
+  for (let gap = 0; gap < n; gap++) {
+    for (let i = 0, j = gap; j < n; i++, j++) {
+      if (j < i + 2) table[i][j] = 0
+      else {
+        table[i][j] = Number.MAX_VALUE
+        for (let k = i + 1; k < j; k++) {
+          let val = table[i][k] + table[k][j] + cost(points, i, j, k)
+          if (table[i][j] > val) table[i][j] = val
+        }
+      }
+    }
+  }
+  return table[0][n - 1]
+}
