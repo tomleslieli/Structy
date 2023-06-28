@@ -1375,3 +1375,53 @@ function chk(points, n) {
   }
   return table[0][n - 1]
 }
+
+////////// SELLERS WITH NO SALES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SELECT DISTINCT seller_name
+FROM seller s
+WHERE seller_id NOT IN (
+    SELECT DISTINCT seller_id 
+    FROM orders
+    WHERE YEAR(sale_date) = 2020
+)
+ORDER BY 1;
+
+////////// SPECIAL ARRAY WITH X ELEMENTS GREATER THAN OR EQUAL TO X ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const specialArray = function (nums) {
+  nums.sort((a, b) => b - a)
+  let i = 0
+  while(i < nums.length && nums[i] >= i) {
+    i++
+  }
+  if(nums[i - 1] < i) return -1
+  return i
+};
+
+////////// EVEN ODD TREE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const isEvenOddTree = function(root) {
+  const q = [root]
+  const v = []
+  let l = 0
+  while(q.length) {
+    const size = q.length
+    const row = []
+    for(let i = 0; i < size; i++) {
+      const cur = q.shift()
+      row.push(cur.val)
+      if(l % 2 === 0 && cur.val % 2 === 0) return false
+      if(l % 2 === 1 && cur.val % 2 === 1) return false
+      if(row.length > 1) {
+        if(l % 2 === 0 && row[row.length - 1] <= row[row.length - 2]) return false
+        if(l % 2 === 1 && row[row.length - 1] >= row[row.length - 2]) return false
+      }
+      if(cur.left) q.push(cur.left)
+      if(cur.right) q.push(cur.right)
+    }
+    l++
+  }
+  return true
+};
+
