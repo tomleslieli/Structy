@@ -1604,3 +1604,44 @@ const getCoprimes = function (nums, edges) {
   dfs(0, [], Array(51))
   return output
 }
+
+
+////////// MERGE STRINGS ALTERNATELY ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var mergeAlternately = function(word1, word2) {
+  let res = '', mark = 0, i = 0, j = 0
+  while(i < word1.length && j < word2.length) {
+    if(mark === 0) {
+      res += word1[i++]
+      mark = 1
+    } else {
+      res += word2[j++]
+      mark = 0
+    }
+  }
+  while(i < word1.length) res += word1[i++]
+  while(j < word2.length) res += word2[j++]
+  
+  return res
+};
+
+////////// MINIMUM NUMBER OF OPERATIONS TO MOVE ALL BALLS TO EACH BOX ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minOperations = function(boxes) {
+  const res = []
+  for(let i = 0, len = boxes.length; i < len; i++) {
+    res[i] = helper(boxes, i)
+  }
+
+  return res
+};
+
+function helper(str, idx) {
+  let res = 0
+  for(let i = 0, len = str.length; i < len; i++) {
+    if(i === idx || str[i] === '0') continue
+    res += Math.abs(i - idx)
+  }
+  return res
+}
+
