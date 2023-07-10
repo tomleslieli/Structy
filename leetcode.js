@@ -1725,3 +1725,57 @@ function helper(e, k, v) {
   return false
   
 }
+
+////////// CLOSEST DESSERT COST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const closestCost = function(baseCosts, toppingCosts, target) {
+  let res = baseCosts[0], n = baseCosts.length, m = toppingCosts.length
+  const { abs } = Math
+  for (let i = 0; i < n; i++) {
+    helper(0, baseCosts[i])
+  }
+  return res
+  function helper(i, cur) {
+    if(
+      abs(cur - target) < abs(res - target)
+      || (abs(cur - target) === abs(res - target) && cur < res)
+    ) {
+      res = cur
+    }
+    if(i === m || cur > target) return
+    helper(i + 1, cur)
+    helper(i + 1, cur + toppingCosts[i])
+    helper(i + 1, cur + toppingCosts[i] * 2)
+  }
+};
+
+////////// EQUAL SUM ARRAYS WITH MIN NUMBER OF OPERATIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minOperations = function(nums1, nums2) {
+  const m = nums1.length, n = nums2.length
+  if(m > n * 6 || n > m * 6) return -1
+  const sum1 = nums1.reduce((ac, e) => ac + e, 0)
+  const sum2 = nums2.reduce((ac, e) => ac + e, 0)
+  let largerArr, smallerArr
+  if(sum1 === sum2) return 0
+  if(sum1 > sum2) {
+    largerArr = nums1
+    smallerArr = nums2
+  } else {
+    largerArr = nums2
+    smallerArr = nums1
+  }
+  
+  const gain = []
+  for(let e of largerArr) gain.push(e - 1)
+  for(let e of smallerArr) gain.push(6 - e)
+  gain.sort((a, b) => b - a)
+  let diff = Math.abs(sum2 - sum1)
+  let cnt = 0
+  for(let e of gain) {
+    diff -= e
+    cnt++
+    if(diff <= 0) return cnt
+  }
+  return -1
+};
