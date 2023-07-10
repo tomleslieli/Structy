@@ -1525,3 +1525,82 @@ const shortestPath = function (grid, k) {
   }
   return -1
 }
+
+////////// MAP OF HIGHEST PEAK ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const highestPeak = function(isWater) {
+  let q = []
+  const visited = new Set()
+  const m = isWater.length, n = isWater[0].length
+  for(let i = 0; i < m; i++) {
+    for(let j = 0; j < n; j++) {
+      if(isWater[i][j] === 1) {
+          q.push([i, j, 0])
+          visited.add(`${i},${j}`)
+      }
+    }
+  }
+  const res = Array.from({ length: m }, () => Array(n).fill(0))
+  const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+  
+  while(q.length) {
+    const size = q.length
+    const next = []
+    // Array.shift time complexity: O(n)
+    for(let i = 0; i < size; i++) {
+      const cur = q[i]
+      const [row, col, val] = cur
+      for(let dir of dirs) {
+        const newRow = row + dir[0], newCol = col + dir[1]
+        const key = `${newRow},${newCol}`
+        if(newRow < 0 || newRow >= m || newCol < 0 || newCol >= n || visited.has(key) || res[newRow][newCol] !== 0) continue
+        next.push([newRow, newCol, val + 1])
+        res[newRow][newCol] = val + 1
+        visited.add(key)
+      }
+    }
+    q = next
+
+  }
+  return res
+};
+
+////////// COPRIME TREE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const getCoprimes = function (nums, edges) {
+  const output = Array(nums.length).fill(null)
+  const graph = new Map()
+  for (let [u, v] of edges) {
+    if (!graph.has(u)) graph.set(u, [])
+    if (!graph.has(v)) graph.set(v, [])
+    graph.get(u).push(v)
+    graph.get(v).push(u)
+  }
+
+  function getGCD(a, b) {
+    if (!b) return a
+    return getGCD(b, a % b)
+  }
+
+  function dfs(i, ancestors, indices) {
+    for (let num of ancestors) {
+      const gcd = getGCD(nums[i], num)
+      if (gcd === 1) {
+        output[i] = indices[num]
+        break
+      }
+    }
+
+    if (output[i] === null) output[i] = -1
+    ancestors = [nums[i], ...ancestors.filter((x) => x !== nums[i])]
+    indices[nums[i]] = i
+    for (let next of graph.get(i)) {
+      if (output[next] === null) {
+        dfs(next, ancestors, [...indices])
+      }
+    }
+  }
+
+  dfs(0, [], Array(51))
+  return output
+}
