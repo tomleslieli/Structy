@@ -1779,3 +1779,49 @@ const minOperations = function(nums1, nums2) {
   }
   return -1
 };
+
+////////// CAR FLEET ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const getCollisionTimes = function(cars) {
+  const n = cars.length;
+  const stack = [];
+  const res = Array(n)
+  for(let i = n - 1; i >= 0; i--) {
+    const [p, s] = cars[i]
+    res[i] = -1
+    while(stack.length) {
+      const j = stack[stack.length - 1]
+      const [p2, s2] = cars[j]
+      if(s2 >= s || res[j] > 0 && (p2 - p) / (s - s2) >= res[j]) stack.pop()
+      else break
+    }
+    if(stack.length) {
+      const j = stack[stack.length - 1]
+      const [p2, s2] = cars[j]
+      res[i] = (p2 - p) / (s - s2)
+    }
+    stack.push(i)
+  }
+  
+  return res
+};
+
+////////// FIND NEAREST POINT THAT HAS SAME X OR Y COORDINATES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const nearestValidPoint = function(x, y, points) {
+  let idx = -1, dis = Infinity
+  const {min, max, abs} = Math
+  for(let i = 0; i < points.length; i++) {
+    const e = points[i]
+    const [tx, ty] = e
+    if(tx === x || ty === y) {
+      const tmp = abs(tx - x) + abs(ty - y)
+      if(tmp < dis) {
+        idx = i
+        dis = tmp
+      }
+    }
+  }
+  
+  return idx === -1 ? -1 : idx
+};
