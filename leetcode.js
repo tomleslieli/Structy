@@ -1862,3 +1862,59 @@ SELECT stock_name, SUM(
 ) AS capital_gain_loss
 FROM Stocks
 GROUP BY stock_name
+
+////////// FIND LUCKY INTEGER IN AN ARRAY ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const findLucky = function(arr) {
+  const hash = {}
+  for(let e of arr) hash[e] = (hash[e] || 0) + 1
+  let res
+  Object.keys(hash).forEach(k => {
+    if(+k === hash[k]) {
+      if (res == null) res = hash[k]
+      else {
+        if (hash[k] > res) res = hash[k]
+      }
+    } 
+  })
+  return res == null ? -1 : res
+};
+
+////////// COUNT NUMBER OF TEAMS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const numTeams = function(rating) {
+  if(rating.length < 3) return 0
+  const n = rating.length
+  const leftTree = Array(1e5 + 1).fill(0)
+  const rightTree = Array(1e5 + 1).fill(0)
+  for(let r of rating) update(rightTree, r, 1)
+  let res = 0
+  for(let r of rating) {
+    update(rightTree, r,  -1)
+    res += getPrefixSum(leftTree, r - 1) * getSuffixSum(rightTree, r + 1)
+    res += getSuffixSum(leftTree, r + 1) * getPrefixSum(rightTree, r - 1)
+    update(leftTree, r, 1)
+  }
+
+  return res
+};
+
+function update(bit, index, val) {
+  while(index < bit.length) {
+    bit[index] += val
+    index += index & (-index)
+  }
+}
+
+function getPrefixSum(bit, index) {
+  let res = 0
+  while(index > 0) {
+    res += bit[index]
+    index -= index & (-index)
+  }
+  return res
+}
+
+function  getSuffixSum(bit, index) {
+  return getPrefixSum(bit, 1e5) - getPrefixSum(bit, index - 1)
+}
