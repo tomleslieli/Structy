@@ -1918,3 +1918,93 @@ function getPrefixSum(bit, index) {
 function  getSuffixSum(bit, index) {
   return getPrefixSum(bit, 1e5) - getPrefixSum(bit, index - 1)
 }
+
+////////// LRU CACHE  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Node {
+  constructor(key, val) {
+    this.val = val;
+    this.key = key;
+    this.next = this.pre = null;
+  }
+}
+
+const LRUCache = function(capacity) {
+  this.capacity = capacity;
+  this.count = 0;
+  this.start = new Node(-1, -1);
+  this.end = new Node(-1, -1);
+  this.start.next = this.end;
+  this.end.pre = this.start;
+  this.map = {};
+};
+
+// insert node into the next of the start
+const insertAfter = function(start, node) {
+  let next = start.next;
+  start.next = node;
+  node.pre = start;
+  node.next = next;
+  next.pre = node;
+};
+
+const detach = function(node) {
+  let pre = node.pre,
+    next = node.next;
+  pre.next = next;
+  next.pre = pre;
+  node.next = node.pre = null;
+};
+
+LRUCache.prototype.get = function(key) {
+  let node = this.map[key];
+  if (node != undefined) {
+    detach(node);
+    insertAfter(this.start, node);
+    return node.val;
+  } else {
+    return -1;
+  }
+};
+
+
+LRUCache.prototype.put = function(key, value) {
+  let node = this.map[key];
+  if (!node) {
+    if (this.count == this.capacity) {
+      let t = this.end.pre;
+      detach(t);
+      delete this.map[t.key];
+    } else {
+      this.count++;
+    }
+    node = new Node(key, value);
+    this.map[key] = node;
+    insertAfter(this.start, node);
+  } else {
+    node.val = value;
+    detach(node);
+    insertAfter(this.start, node);
+  }
+};
+
+////////// MAKE TWO ARRAYS EQUAL BY REVERSING SUB ARRAYS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const canBeEqual = function(target, arr) {
+  if(target.length !== arr.length) return false
+  const tHash = {}, aHash = {}
+  for(let i = 0, len = arr.length; i < len;i++) {
+    const t = target[i], a = arr[i]
+    if(tHash[t] == null) tHash[t] = 0
+    if(aHash[a] == null) aHash[a] = 0
+    tHash[t]++
+    aHash[a]++
+  }
+  
+  const keys = Object.keys(tHash)
+  for(let k of keys) {
+    if(tHash[k] !== aHash[k]) return false 
+  }
+  
+  return true
+};
