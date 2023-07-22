@@ -2109,3 +2109,44 @@ SubrectangleQueries.prototype.getValue = function(row, col) {
   }
   return this.rect[row][col]
 };
+
+
+//////////  ALLOCATE MAILBOXES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minDistance = function (A, K) {
+  A.sort((a, b) => a - b)
+  let n = A.length,
+    B = new Array(n + 1).fill(0),
+    dp = Array(n).fill(0)
+  for (let i = 0; i < n; ++i) {
+    B[i + 1] = B[i] + A[i]
+    dp[i] = 1e6
+  }
+  for (let k = 1; k <= K; ++k) {
+    for (let j = n - 1; j > k - 2; --j) {
+      for (let i = k - 2; i < j; ++i) {
+        let m1 = ((i + j + 1) / 2) >> 0,
+          m2 = ((i + j + 2) / 2) >> 0
+        let last = B[j + 1] - B[m2] - (B[m1 + 1] - B[i + 1])
+        dp[j] = Math.min(dp[j], (i >= 0 ? dp[i] : 0) + last)
+      }
+    }
+  }
+  return dp[n - 1]
+}
+
+//////////  SALES BY DAY OFTHE WEEK SQL ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SELECT i.item_category AS Category,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 2 THEN quantity ELSE 0 END) AS Monday,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 3 THEN quantity ELSE 0 END) AS Tuesday,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 4 THEN quantity ELSE 0 END) AS Wednesday,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 5 THEN quantity ELSE 0 END) AS Thursday,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 6 THEN quantity ELSE 0 END) AS Friday,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 7 THEN quantity ELSE 0 END) AS Saturday,
+    SUM(CASE WHEN DAYOFWEEK(o.order_date) = 1 THEN quantity ELSE 0 END) AS Sunday
+FROM Items i
+LEFT JOIN Orders o
+ON i.item_id = o.item_id
+GROUP BY i.item_category
+ORDER BY i.item_category;
