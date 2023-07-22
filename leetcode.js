@@ -2150,3 +2150,72 @@ LEFT JOIN Orders o
 ON i.item_id = o.item_id
 GROUP BY i.item_category
 ORDER BY i.item_category;
+
+////////// SORT LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function sortList(head) {
+  quickSort(head, null);
+  return head;
+}
+
+function quickSort(head, tail) {
+  if (head == tail) {
+    return;
+  }
+  const slow = partition(head, tail);
+  quickSort(head, slow);
+  quickSort(slow.next, tail);
+}
+
+function swap(node1, node2) {
+  let tmp = node1.val;
+  node1.val = node2.val;
+  node2.val = tmp;
+}
+
+function partition(head, tail) {
+  let slow = head,
+    fast = head.next;
+  let p = head.val;
+  while (fast != tail) {
+    if (fast.val <= p) {
+      slow = slow.next;
+      swap(slow, fast);
+    }
+    fast = fast.next;
+  }
+  swap(head, slow);
+  return slow;
+}
+
+//////////  RUNNING SUM ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const runningSum = function(nums) {
+  for(let i = 1, len = nums.length; i < len; i++) {
+    nums[i] += nums[i - 1]
+  }
+  return nums
+};
+
+//////////  LEAST NUMBER OFUNIQUE INTEGERS AFTER K REMOVALS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const findLeastNumOfUniqueInts = function (arr, k) {
+  const map = {}
+
+  for (const num of arr) {
+    map[num] = map[num] || 0
+    map[num] += 1
+  }
+  const keys = Object.keys(map).sort((a, b) => map[a] - map[b])
+  for (const key of keys) {
+    while (map[key] > 0 && k > 0) {
+      k--
+      map[key] -= 1
+      if (map[key] === 0) {
+        delete map[key]
+      }
+    }
+  }
+  return Object.keys(map).length
+}
+
