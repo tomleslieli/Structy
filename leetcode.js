@@ -2290,3 +2290,33 @@ const xorOperation = function(n, start) {
   for(let i = 1; i < n; i++) res ^= nums[i]
   return res
 };
+
+////////// MIN NUMBER OF DAYS TO EAT N ORANGES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minDays = function (n, dp = {}) {
+  if (n <= 1) return n
+  if (dp[n] == null)
+    dp[n] =
+      1 +
+      Math.min(
+        (n % 2) + minDays((n / 2) >> 0, dp),
+        (n % 3) + minDays((n / 3) >> 0, dp)
+      )
+  return dp[n]
+}
+
+////////// STRINGS DIFFER BY ONE CHARACTER ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const differByOne = function(dict) {
+  const n = dict.length, m = dict[0].length
+  for (let j = 0; j < m; j++) {
+    const seen = new Set()
+    for(let i = 0; i < n; i++) {
+      const newStr = dict[i].slice(0, j) + '*' + dict[i].slice(j + 1)
+      if(seen.has(newStr)) return true
+      seen.add(newStr)
+    }
+  }
+
+  return false  
+};
