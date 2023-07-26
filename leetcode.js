@@ -2381,3 +2381,41 @@ const containsCycle = function (grid) {
   }
   return res
 }
+
+
+////////// BINARY TREE UPSIDE DOWN ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const upsideDownBinaryTree = function(root) {
+  let node = root, parent = null, right = null
+  while(node !== null) {
+    const left = node.left
+    node.left = right
+    right = node.right
+    node.right = parent
+    parent = node
+    node = left
+  }
+  return parent
+};
+
+////////// MOST VISITED SECTOR IN A CIRCULAR TRACK ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const mostVisited = function(n, rounds) {
+  const arr = Array(n + 1).fill(0)
+  for(let i = 1, m = rounds.length; i < m; i++) {
+    let start = rounds[i - 1], end = rounds[i]
+
+    if(i == 1) arr[start]++
+    while(start !== end) {
+      start += 1
+      if (start === n + 1) start = 1
+      arr[start]++
+    }
+  }
+  const max = Math.max(...arr)
+  const res = []
+  for(let i = 1; i <= n; i++) {
+    if(arr[i] === max) res.push(i)
+  }
+  return res
+};
