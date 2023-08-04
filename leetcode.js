@@ -2482,3 +2482,42 @@ const areAlmostEqual = function(s1, s2) {
   if(s1[i2] === s2[i1] && s1[i1] === s2[i2]) return true
   return false
 };
+
+////////// EVALUATETHE BRACKET PAIRS OF A STRING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const evaluate = function(s, knowledge) {
+  const map = {}
+  for(let e of knowledge) {
+    const [k, v] = e
+    map[k] = v
+  }
+  const n = s.length
+  let start = -1, end = 0
+  let cur = ''
+  const arr = []
+  for(let i = 0; i < n; i++) {
+    if(s[i] === '(') {
+      start = i
+      if(cur) {
+        arr.push(cur)
+        cur = ''
+      }
+      continue
+    }
+    else if(start !== -1 && s[i] !== ')') {
+      cur += s[i]
+    }
+    else if(s[i] === ')') {
+      if(cur in map) arr.push(map[cur])
+      else arr.push('?')
+      start = -1
+      cur = ''
+    } else {
+      cur += s[i]
+    }
+    if(i === n - 1 && cur) arr.push(cur)
+  }
+  
+  return arr.join('')
+  
+};
