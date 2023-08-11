@@ -2704,3 +2704,35 @@ const largestOddNumber = function(num) {
   }
   return num.slice(0, idx+1)
 };
+
+////////// THE NUMBER OF FULL ROUNDS YOU HAVE PLAYED ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const numberOfRounds = function(startTime, finishTime) {
+  let start = 60 * parseInt(startTime.slice(0, 2)) + parseInt(startTime.slice(3))
+  let finish = 60 * parseInt(finishTime.slice(0, 2)) + parseInt(finishTime.slice(3));
+  if (start > finish) finish += 60 * 24; // If `finishTime` is earlier than `startTime`, add 24 hours to `finishTime`.
+  return Math.max(0, Math.floor(finish / 15) - Math.ceil(start / 15)); // floor(finish / 15) - ceil(start / 15)
+};
+
+////////// COUNT SUB ISLANDS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const countSubIslands = function(grid1, grid2) {
+  let m = grid2.length, n = grid2[0].length, res = 0;
+  for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+          if (grid2[i][j] === 1) res += dfs(grid1, grid2, i, j);                 
+      }
+  }
+  return res;  
+};
+
+function dfs(B, A, i, j) {
+  let m = A.length, n = A[0].length, res = 1;
+  if (i < 0 || i == m || j < 0 || j == n || A[i][j] == 0) return 1;
+  A[i][j] = 0;
+  res &= dfs(B, A, i - 1, j);
+  res &= dfs(B, A, i + 1, j);
+  res &= dfs(B, A, i, j - 1);
+  res &= dfs(B, A, i, j + 1);
+  return res & B[i][j];
+}
