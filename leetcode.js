@@ -2667,3 +2667,40 @@ const earliestAndLatest = function (n, firstPlayer, secondPlayer) {
 
   return dp(firstPlayer, n - secondPlayer + 1, n)
 }
+
+////////// FIND A PEAK ELEMENT II ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const findPeakGrid = function(mat) {
+  let lowCol = 0;
+  let highCol = mat[0].length - 1;
+
+  while(lowCol <= highCol) {
+      let midCol = lowCol + ~~((highCol - lowCol) / 2);
+      let maxRow = 0;
+      for(let i = 0; i < mat.length; i++) {
+          maxRow = mat[i][midCol] > mat[maxRow][midCol] ? i : maxRow;
+      }
+
+      let isLeftElementBig = midCol - 1 >= lowCol && mat[maxRow][midCol - 1] > mat[maxRow][midCol];
+      let isRightElementBig = midCol + 1 <= highCol && mat[maxRow][midCol + 1] > mat[maxRow][midCol];
+
+      if(!isLeftElementBig && !isRightElementBig) {
+          return [maxRow, midCol];
+      } else if(isRightElementBig) {
+          lowCol = midCol + 1;
+      } else {
+          highCol = midCol - 1;
+      }
+  }
+  return null;
+};
+
+////////// LARGEST ODD NUMBER IN STRING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const largestOddNumber = function(num) {
+  let idx= -1
+  for(let i = 0, n = num.length; i < n; i++) {
+    if((+num[i]) % 2 === 1) idx = i
+  }
+  return num.slice(0, idx+1)
+};
