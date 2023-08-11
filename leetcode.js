@@ -2776,3 +2776,25 @@ const canBeIncreasing = function(nums) {
 	}
 	return true;
 };
+
+////////// NUMBER OF 1 BITS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const hammingWeight = function(n) {
+  let res = 0
+  while(n > 0) {
+    if(n & 1) res++
+    n = n >>> 1
+  }
+  return res
+};
+
+////////// REMOVE ALL OCCURRENCES OF A SUBSTRING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var removeOccurrences = function(s, part) {
+  while(s.indexOf(part) !== -1) {
+    const idx = s.indexOf(part)
+    s = s.slice(0, idx) + s.slice(idx + part.length)
+    // console.log(s)
+  }
+  return s
+};
