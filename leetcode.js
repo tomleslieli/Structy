@@ -2736,3 +2736,43 @@ function dfs(B, A, i, j) {
   res &= dfs(B, A, i, j + 1);
   return res & B[i][j];
 }
+
+////////// MINIMUM ABSOLUTE DIFFERENCE QUERIES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minDifference = function (nums, queries) {
+  const res = [],
+    cnt = Array.from({ length: nums.length + 1 }, () => Array(101).fill(0))
+
+  for (let i = 0; i < nums.length; ++i) {
+    for (let j = 1; j <= 100; ++j) {
+      cnt[i + 1][j] = cnt[i][j] + (nums[i] == j)
+    }
+  }
+
+  for (let i = 0; i < queries.length; ++i) {
+    let prev = 0,
+      delta = Infinity
+    for (let j = 1; j <= 100; ++j)
+      if (cnt[queries[i][1] + 1][j] - cnt[queries[i][0]][j]) {
+        delta = Math.min(delta, prev == 0 ? Infinity : j - prev)
+        prev = j
+      }
+    res.push(delta == Infinity ? -1 : delta)
+  }
+  return res
+}
+
+////////// REMOVE ONE ELEMENT TO MAKE THE ARRAY STRICTLY INCREASING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const canBeIncreasing = function(nums) {
+	let previous = nums[0];
+	let used = false;
+	for (let i = 1; i < nums.length; i++){
+		if (nums[i] <= previous) {
+      if (used) return false;
+      used = true;
+      if (i === 1 || nums[i] > nums[i - 2]) previous = nums[i];
+		} else previous = nums[i];
+	}
+	return true;
+};
