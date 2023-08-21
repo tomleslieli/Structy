@@ -2848,3 +2848,74 @@ const maximumUnits = function (boxTypes, truckSize) {
   }
   return res
 }
+
+////////// COUNT MEALS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const countPairs = function (deliciousness) {
+  const N = deliciousness.length
+  deliciousness.sort((a, b) => a - b)
+  const mp = {},
+    mod = 10 ** 9 + 7
+  let ret = 0
+  for (let i = 0; i < N; i++) {
+    if (deliciousness[i] !== 0) {
+      let sum = 1 << (32 - __builtin_clz(deliciousness[i]) - 1)
+      ret += mp[sum - deliciousness[i]] || 0
+      ret += mp[(sum << 1) - deliciousness[i]] || 0
+      if (ret >= mod) ret -= mod
+    }
+    if (mp[deliciousness[i]] == null) mp[deliciousness[i]] = 0
+    mp[deliciousness[i]]++
+  }
+  return ret
+}
+
+function __builtin_clz(num) {
+  if (num === 0) return 32
+  return 32 - dec2bin(num).length
+}
+
+function dec2bin(num) {
+  return (num >>> 0).toString(2)
+}
+
+////////// WAYS TO SPLIT ARRAY INTO THREE SUBARRAYS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const waysToSplit = function (nums) {
+  const N = nums.length
+  let ret = 0
+  const presum = Array(N + 1).fill(0), MOD = 10 ** 9 + 7
+  for (let i = 0; i < N; i++) presum[i + 1] = presum[i] + nums[i]
+  let avg = (presum[N] / 3 + 1) >> 0
+  for (let l = 1, m = 2, r = 2; l < N - 1; l++) {
+    if (presum[l] > avg) break
+    while (m < N && presum[l] > presum[m] - presum[l]) m++
+    m = Math.max(m, l + 1)
+    if (m > r) r = m
+    while (r < N && presum[N] - presum[r] >= presum[r] - presum[l]) r++
+    ret += r - m
+    if (ret >= MOD) ret -= MOD
+  }
+  return ret
+}
+
+////////// MINIMUM OPERATIONS TO MAKE A SUBSEQUENCE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minOperations = function(target, arr) {
+  const hash = {}
+  for (let i = 0, n = target.length; i < n; i++) {
+    hash[target[i]] = i
+  }
+  const stk = []
+  for(let e of arr) {
+    if(hash[e] == null) continue
+    let l = 0, r = stk.length
+    while(l < r) {
+      const mid = l + (~~((r - l) / 2))
+      if(stk[mid] < hash[e]) l = mid + 1
+      else r = mid
+    }
+    stk[l] = hash[e]
+  }
+  return target.length - stk.length
+};
