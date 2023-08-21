@@ -2798,3 +2798,30 @@ var removeOccurrences = function(s, part) {
   }
   return s
 };
+
+////////// LARGEST SUBARRAY LENGTH ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const largestSubarray = function(nums, k) {
+  const n = nums.length
+  const hi = n - k
+  let start = Number.MIN_VALUE, idx = -1
+  for(let i = 0; i <= hi; i++) {
+    if(nums[i] > start) {
+      start = nums[i]
+      idx = i
+    }
+  }
+  return nums.slice(idx, idx + k)
+};
+
+////////// BIGGEST WINDOW BETWEEN VISITS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SELECT user_id, MAX(diff) AS biggest_window
+FROM
+(
+	SELECT user_id, 
+	   DATEDIFF(COALESCE(LEAD(visit_date) OVER (PARTITION BY user_id ORDER BY visit_date), '2021-01-01'), visit_date) AS diff
+	FROM userVisits
+) a
+GROUP BY user_id
+ORDER BY user_id;
