@@ -2825,3 +2825,26 @@ FROM
 ) a
 GROUP BY user_id
 ORDER BY user_id;
+
+////////// EXCEL SHEET COLUMN NO ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const titleToNumber = function(s) {
+  let result = 0;
+  const A = 'A'.charCodeAt(0)
+  for (let i = 0; i < s.length; result = result * 26 + (s.charCodeAt(i) - A + 1), i++);
+  return result;
+};
+
+////////// MAX UNITS ON A TRUCK ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maximumUnits = function (boxTypes, truckSize) {
+  boxTypes.sort((a, b) => b[1] - a[1])
+  let res = 0
+
+  for (let i = 0; i < boxTypes.length && truckSize > 0; ++i) {
+    let used = Math.min(boxTypes[i][0], truckSize)
+    truckSize -= used
+    res += used * boxTypes[i][1]
+  }
+  return res
+}
