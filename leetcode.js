@@ -2965,3 +2965,43 @@ const solve = function (nums, queries) {
   }
   return res
 }
+
+////////// CALCULATE MONEY IN LEETCODE BANK ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const totalMoney = function(n) {
+  let total = 0
+  for(let i = 0 ; i < n; i++) {
+    const base = (i / 7) >> 0
+    const remain = i % 7 + 1
+    total += base + remain
+  }
+
+  return total
+};
+
+////////// MAXIMUM SCORE FROM REMOVING SUBSTRINGS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maximumGain = function (s, x, y) {
+  let sb = s.split('')
+  if (x > y) {
+    return remove(sb, 'ab', x) + remove(sb, 'ba', y)
+  }
+  return remove(sb, 'ba', y) + remove(sb, 'ab', x)
+  function remove(sb, pattern, point) {
+    let i = 0,
+      res = 0
+    for (let j = 0; j < sb.length; j++) {
+      sb[i++] = sb[j]
+      if (
+        i > 1 &&
+        sb[i - 2] == pattern.charAt(0) &&
+        sb[i - 1] == pattern.charAt(1)
+      ) {
+        i -= 2
+        res += point
+      }
+    }
+    sb.splice(i)
+    return res
+  }
+}
