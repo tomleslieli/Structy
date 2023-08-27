@@ -3133,3 +3133,24 @@ var countPoints = function(points, queries) {
    return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
  }
 };
+
+////////// MAX XOR FOR EACH QUERY ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const getMaximumXor = function(nums, maximumBit) {
+  const n = nums.length
+  let xor = nums.reduce((ac, e) => ac ^ e, 0)
+  let limit = 2 ** maximumBit - 1
+  const res = []
+  for(let i = n - 1; i >= 0; i--) {
+    const tmp = limit ^ xor
+    res.push(tmp)
+    xor ^= nums[i]
+  }
+  
+  return res
+};
+
+////////// CUSTOMERS WHO NEVER ORDER ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SELECT A.Name AS `Customers` from Customers A
+WHERE A.Id NOT IN (SELECT B.CustomerId from Orders B);
