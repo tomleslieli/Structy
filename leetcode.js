@@ -3092,3 +3092,44 @@ function calcSum(numArr, indexArr, start, count) {
   }
   return sum
 }
+
+////////// MINIMUM OPERATIONS TO MAKE THE ARRAY INCREASING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const minOperations = function(nums) {
+  let res = 0
+  let pre = nums[0]
+  for(let i = 1, n = nums.length; i < n; i++) {
+    const e = nums[i]
+    if(e <= pre) {
+      res += pre - e + 1
+      pre++
+    } else {
+      pre = e
+    }
+  }
+  return res
+};
+
+////////// QUERIES ON NUMBER OF POINTS INSIDE A CIRCLE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var countPoints = function(points, queries) {
+  const res = []
+  
+  for(const [x, y, r] of queries) {
+    const square = r ** 2
+    const center = [x, y]
+    let cnt = 0
+    for(const d of points) {
+      if(disSquare(d, center) <= square) {
+        cnt++
+      }       
+    }
+    res.push(cnt)
+  }
+  
+  return res
+ 
+ function disSquare(a, b) {
+   return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
+ }
+};
