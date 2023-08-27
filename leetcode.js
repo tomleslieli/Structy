@@ -3210,3 +3210,27 @@ const makeStringSorted = function (s) {
   }
   
 }
+
+////////// CHECK IF THE SENTENCE IS PANGRAM ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const checkIfPangram = function(sentence) {
+  const hash = new Map()
+  for(let ch of sentence) {
+    if(!hash.has(ch)) hash.set(ch, 0)
+    hash.set(ch, hash.get(ch) + 1)
+  }
+  return hash.size >= 26
+};
+
+////////// MAX ICE CREAM BARS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const maxIceCream = function(costs, coins) {
+  costs.sort((a, b) => a - b)
+  let res = 0, idx = 0
+  while(coins >= costs[idx]) {
+    res++
+    coins -= costs[idx++]
+  }
+  
+  return res
+};
