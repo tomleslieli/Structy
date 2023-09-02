@@ -3308,3 +3308,51 @@ const deleteDuplicatesUnsorted = function(head) {
   
   return dummy.next
 };
+
+////////// DESTROYING ASTEROIDS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const asteroidsDestroyed = function(mass, asteroids) {
+  asteroids.sort((a, b) => a - b)
+  let res = true
+  for(let i = 0, n = asteroids.length; i < n; i++) {
+    const cur = asteroids[i]
+    if(mass >= cur) {
+      mass += cur
+    } else {
+      res = false
+      break
+    }
+  }
+  
+  return res
+};
+
+////////// REMOVE ALL ONES WITH ROW AND COLUMN FLIPS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const removeOnes = function(grid) {
+  const m = grid.length
+  const n = grid[0].length
+  const first = grid[0], firstFliped = flip(first)
+  for(let i = 1; i < m; i++) {
+    if(!equal(first, grid[i]) && !equal(firstFliped, grid[i])) return false
+  }
+  
+  return true
+  
+  function flip(arr) {
+    const res = []
+    for(const e of arr) {
+      res.push(e === 1 ? 0 : 1)
+    }
+    return res
+  }
+  
+  function equal(a, b) {
+    const n = a.length
+    for(let i = 0; i < n; i++) {
+      if(a[i] !== b[i]) return false
+    }
+    
+    return true
+  }
+};
