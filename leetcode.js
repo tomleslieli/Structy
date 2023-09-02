@@ -3272,3 +3272,39 @@ function compare(a, b) {
     return a[1] < b[1]
   }
 }
+
+////////// REMOVE DUPLICATES FROM AN UNSORTED LINKED LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const deleteDuplicatesUnsorted = function(head) {
+  const set = new Set()
+  const del = new Set()
+  let cur = head
+  
+  while(cur) {
+    if(set.has(cur.val)) {
+      del.add(cur.val)
+    } else {
+      set.add(cur.val)
+
+    }
+    cur = cur.next    
+  }
+  
+  const dummy = new ListNode()
+  dummy.next = head
+  cur = dummy
+  
+  while(cur) {
+    if(cur.next) {
+      if(del.has(cur.next.val)) {
+        cur.next = cur.next.next
+      } else {
+        cur = cur.next
+      }
+    } else {
+      cur = cur.next        
+    }
+  }
+  
+  return dummy.next
+};
