@@ -3411,3 +3411,48 @@ const maximumInvitations = function(favorite) {
   
   return max(maxLoopSize, twoNodesSize)
 };
+
+////////// HOUSE ROBBER II ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const rob = function(nums) {
+  if(nums.length === 0) return 0
+  if(nums.length < 3) return Math.max(...nums)
+
+  const startFromFirst = [0,nums[0]]
+  const startFromSecond = [0,0]
+  
+  for(let i = 2; i <= nums.length; i++) {
+    startFromFirst[i] = Math.max(startFromFirst[i - 1], startFromFirst[i - 2] + nums[i - 1])
+    startFromSecond[i] = Math.max(startFromSecond[i - 1], startFromSecond[i - 2] + nums[i - 1])
+  }
+  
+  return Math.max(startFromFirst[nums.length - 1], startFromSecond[nums.length])
+
+};
+
+////////// MAX TWIN SUM OF A LINKED LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const pairSum = function(head) {
+  let slow = head, fast = head
+  while(fast && fast.next) {
+    slow = slow.next
+    fast = fast.next.next
+  }
+  // reverse
+  let next = null, pre = null
+  while(slow) {
+    next = slow.next
+    slow.next = pre
+    pre = slow
+    slow = next
+  }
+
+  let res = 0
+  while(pre) {
+    res = Math.max(res, pre.val + head.val)
+    pre = pre.next
+    head = head.next
+  }
+  
+  return res
+};
