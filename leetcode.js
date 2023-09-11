@@ -3468,3 +3468,18 @@ var countOperations = function(num1, num2) {
   }
   return res
 };
+
+////////// CONTAINS DUPLICATE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const containsDuplicate = function(nums) {
+  const hash = {};
+  for (let el of nums) {
+    if (hash.hasOwnProperty(el)) {
+      return true;
+    } else {
+      hash[el] = 1;
+    }
+  }
+  return false;
+};
+
