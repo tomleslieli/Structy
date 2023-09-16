@@ -3664,3 +3664,15 @@ function gcd(x,y){
   if(y === 0) return x
   return gcd(y, x % y)
 }
+
+////////// DUPLICATE EMAILS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+select Email
+from
+    (
+  select Email, count(Email) as num
+    from Person
+    group by Email
+) as statistic
+where num > 1
+;
