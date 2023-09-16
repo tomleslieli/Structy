@@ -3575,3 +3575,11 @@ function Fenwick(n) {
       }
   }
 }
+
+////////// TRUNCATE SENTENCE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const truncateSentence = function(s, k) {
+  const arr = s.split(' ')
+  const sli = arr.slice(0, k)
+  return sli.join(' ')
+};
