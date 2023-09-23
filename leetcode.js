@@ -3708,3 +3708,16 @@ function chk(s, i) {
     s[i - 2] !== s[i] &&
     s[i - 1] !== s[i]
 }
+
+////////// MINIMIZE MAXIMUM PAIR SUM IN ARRAY ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var minPairSum = function(nums) {
+  nums.sort((a, b) => a - b)
+  let res = 0
+  for(let i = 0, limit = nums.length / 2; i < limit; i++) {
+    res = Math.max(res, nums[i] + nums[nums.length - 1 - i])
+  }
+  
+  return res
+};
+
