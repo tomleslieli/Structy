@@ -3869,4 +3869,18 @@ var minimumOperations = function (nums, start, goal) {
   return -1
 }
 
-////////// MINIMUM OPERATIONS TO CONVERT NUMBER ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////// REVERSE LINKED LIST ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const reverseList = function(head) {
+  if(head == null) return head
+  const pre = new ListNode(null, head)
+  let cur = head
+  while(cur.next) {
+    const tmp = pre.next
+    pre.next = cur.next
+    cur.next = cur.next.next
+    pre.next.next = tmp
+  }
+
+  return pre.next
+};
