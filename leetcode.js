@@ -4605,3 +4605,54 @@ const findLengthOfShortestSubarray = function (arr) {
   }
 
   return res
+
+////////// COUNT ALL POSSIBLE ROUTES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const countRoutes = function (locations, start, finish, fuel) {
+  const n = locations.length
+  const mod = 10 ** 9 + 7
+  const dp = Array.from({ length: n }, () => Array(fuel + 1).fill(-1))
+  return solve(start, finish, fuel)
+  function solve(curCity, e, fuel) {
+    if (fuel < 0) return 0
+    if (dp[curCity][fuel] !== -1) return dp[curCity][fuel]
+    let ans = curCity === e ? 1 : 0
+    for (let nextCity = 0; nextCity < locations.length; nextCity++) {
+      if (nextCity !== curCity) {
+        ans +=
+          solve(
+            nextCity,
+            e,
+            fuel - Math.abs(locations[curCity] - locations[nextCity])
+          ) % mod
+      }
+    }
+    return (dp[curCity][fuel] = ans % mod)
+  }
+}
+
+////////// REPLACE ALL S TO AVOID CONSECUTIVE REPEATING CHARACTERS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const modifyString = function(s) {
+  const arr = s.split('')
+  for(let i = 0, n = s.length; i < n; i++) {
+    const cur = arr[i]
+    if(cur === '?') {
+      for(let j = 0, a = 'a'.charCodeAt(0); j < 26; j++) {
+        const ch = String.fromCharCode(a + j)
+        if(
+          n === 1 ||
+          (i === 0 && i < n - 1 && ch !== arr[i + 1]) ||
+          (i > 0 && ch !== arr[i - 1] && i < n - 1 && ch !== arr[i + 1]) ||
+          (i=== n -1 && i - 1 >= 0 && ch !== arr[i - 1])
+        ) {
+          
+          arr[i] = ch
+          break
+        }
+      }
+    }
+  }
+  
+  return arr.join('')
+};
