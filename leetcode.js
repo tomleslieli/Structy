@@ -4716,3 +4716,23 @@ const splitPainting = function(segments) {
   } 
   return res
 };
+
+////////// NUMBER OF VISIBLE PEOPLE IN A QUEUE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const canSeePersonsCount = function(heights) {
+  const n = heights.length
+  const res = Array(n).fill(0)
+  const stk = []
+  for(let i = n - 1; i >= 0; i--) {
+    const cur = heights[i]
+    let del = 0
+    while(stk.length && cur > heights[stk.at(-1)]) {
+      del++
+      stk.pop()
+    }
+    res[i] = del + (stk.length ? 1 : 0)
+    stk.push(i)
+  }
+  
+  return res
+};
